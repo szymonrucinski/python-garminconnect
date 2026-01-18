@@ -1,0 +1,16 @@
+services:
+  garmin-api:
+    build: .
+    container_name: garmin-connect-api
+    ports:
+      - "8000:8000"
+    environment:
+      # Optional: Set these for auto-login on startup
+      - GARMIN_EMAIL=${GARMIN_EMAIL:-}
+      - GARMIN_PASSWORD=${GARMIN_PASSWORD:-}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
